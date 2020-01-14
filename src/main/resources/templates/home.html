@@ -1,0 +1,63 @@
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-spring4-4.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org"/>
+<head>
+    <link rel="stylesheet" href="style.css"/>
+    <link rel="shortcut icon" href="kreweta.gif" type="image/x-icon"/>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8; width=device-width; initial-scale=1" name="viewport" />
+    <title>Mosura.pl - Your best aquaristic HQ</title>
+</head>
+<body>
+
+
+<div class="header">
+    <img src="kreweta.gif" alt="krewetka"/>
+    <span><h1>Mosura.pl - Your aquaristic center</h1></span>
+</div>
+<div class="homebody">
+    <div class="bodynode">
+        <h2>User information</h2>
+        <p th:text="${loggedUser.getName()}"></p>
+        <p>Choose device</p>
+        <select id="chosenDev" name="chosenDev">
+            <option th:each="dev : ${loggedUser.getListOfRpis()}" th:value="${dev.getId()}" th:text="${dev.getHostname()}" th:selected="${dev==loggedUser.getListOfRpis().get(0)}"/>
+        </select>
+
+
+
+
+
+
+
+
+
+        <table align="center">
+            <tr>
+                <th>dev ID</th>
+                <th>Name</th>
+            </tr>
+            <tr th:each="dev: ${loggedUser.getListOfRpis()}" style="align-items: center">
+                <td th:text="${dev.getId()}"/>
+                <!--/*@thymesVar id="rpis" type="pl.mosura.entity.rpis"*/-->
+                <td th:text="${dev.getHostname()}" th:object="${rpis}"/>
+            </tr>
+            <!--<td th:text="${dev.getCreated_at()}"/>-->
+        </table>
+
+
+    </div>
+    <div class="bodynode">
+        <h2>Temperature sensors</h2>
+
+
+    </div>
+    <div class="bodynode">
+        <h2>Lights</h2>
+    </div>
+    <div class="bodynode">
+        <h2>Controllers</h2>
+    </div>
+</div>
+
+</body>
+</html>
