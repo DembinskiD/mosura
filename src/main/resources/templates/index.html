@@ -3,6 +3,7 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org"/>
 
 <head>
+    <link rel="shortcut icon" href="kreweta.gif" type="image/x-icon"/>
     <link rel="stylesheet" href="style.css"/>
     <title>Mosura</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8; width=device-width; initial-scale=1" name="viewport" />
@@ -14,6 +15,8 @@
 <img src="avatar.png" class="avatar"/>
     <h1>Login here</h1>
     <p th:if="${loginError}" class="error" >Wrong or missing credentials.</p>
+    <p th:if="${userNotFound}" class="error">User not found.</p>
+    <p th:if="${loggedOut}" class="error">Logged out properly.</p>
     <form th:action="@{/index}" th:object="${loginForm}" method="post">
         <p>Username</p>
         <input type="text" name="username" placeholder="Enter Username">

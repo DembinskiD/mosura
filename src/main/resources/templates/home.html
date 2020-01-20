@@ -17,34 +17,15 @@
 <div class="homebody">
     <div class="bodynode">
         <h2>User information</h2>
-        <p th:text="${loggedUser.getName()}"></p>
+        <!--<p th:text="${loggedUser.getName()}"></p>-->
         <p>Choose device</p>
-        <select id="chosenDev" name="chosenDev">
+        <select id="chosenDev" name="chosenDev" style="margin: 5px">
             <option th:each="dev : ${loggedUser.getListOfRpis()}" th:value="${dev.getId()}" th:text="${dev.getHostname()}" th:selected="${dev==loggedUser.getListOfRpis().get(0)}"/>
         </select>
 
-
-
-
-
-
-
-
-
-        <table align="center">
-            <tr>
-                <th>dev ID</th>
-                <th>Name</th>
-            </tr>
-            <tr th:each="dev: ${loggedUser.getListOfRpis()}" style="align-items: center">
-                <td th:text="${dev.getId()}"/>
-                <!--/*@thymesVar id="rpis" type="pl.mosura.entity.rpis"*/-->
-                <td th:text="${dev.getHostname()}" th:object="${rpis}"/>
-            </tr>
-            <!--<td th:text="${dev.getCreated_at()}"/>-->
-        </table>
-
-
+        <form th:action="@{/logout}" method="post">
+            <input type="submit" value="Logout" style="margin: 5px"/>
+        </form>
     </div>
     <div class="bodynode">
         <h2>Temperature sensors</h2>

@@ -1,17 +1,14 @@
 package pl.mosura.controller;
 
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
 import pl.mosura.*;
 import pl.mosura.entity.*;
 import pl.mosura.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.security.NoSuchAlgorithmException;
-import java.util.List;
 
 @Controller
 public class AdministrationController {
@@ -35,60 +32,48 @@ public class AdministrationController {
     }
 
 
-
-    @GetMapping("/")
+    @RequestMapping(value = "/")
     public String showIndex() {
         return "index";
     }
 
 
-   @RequestMapping(value="/index")
-    public String login(@ModelAttribute(name="loginForm")LoginForm loginForm, Model model) throws NoSuchAlgorithmException {
+    @RequestMapping(value = "/index")
+    public ModelAndView login(@ModelAttribute(name = "loginForm") LoginForm loginForm,
+                              ModelAndView model) throws NoSuchAlgorithmException {
         String username = loginForm.getUsername();
         String password = loginForm.getPassword();
+        User tempRpiUser;
+        System.out.println("--");
+        System.out.println("username: " + username);
+        System.out.println(loginForm.getUsername());
+        System.out.println(loginForm.getPassword());
 
-        User tempRpiusers = userRepository.getUserByName(username);
-
-        if(tempRpiusers == null || tempRpiusers.getUsername() == null || tempRpiusers.getPassword_digest() == null) {
-            model.addAttribute("loginError", true);
-            return "index";
-        } else if(tempRpiusers.getUsername().equals(username) && tempRpiusers.digestPass(password)) {
-            return "home";
-        } else {
-            model.addAttribute("loginError", true);
-            return "index";
+        if (username == null) {
+            System.out.println("username empty..");
+            model.addObject("loginError", true);
+            return model;
         }
-
+        if (password == null) {
+            System.out.println("password empty");
+            model.addObject("loginError", true);
+            return model;
+        } else {
+            tempRpiUser = userRepository.getUserByName(username);
+            if (tempRpiUser == null) {
+                System.out.println("user not found");
+                model.addObject("userNotFound", true);
+                return model;
+            } else if (tempRpiUser.getUsername().equals(username) && tempRpiUser.digestPass(password)) {
+                model.addObject("loginError", false);
+                model.addObject("userNotFound", false);
+                return model;
+            } else return new ModelAndView("index");
+        }
     }
-
-    private User loggedUser;
-    private rpis chosenDev;
-    Authentication auth;
-
-    @RequestMapping(value = "/home", method = RequestMethod.GET)
-    public String showHome(Model model) {
-        auth = SecurityContextHolder.getContext().getAuthentication();
-        loggedUser = userRepository.getUserByName(auth.getName());
-        System.out.println(loggedUser.toString());
-        model.addAttribute("loggedUser", loggedUser);
-        model.addAttribute("chosenDev", chosenDev);
-        return "home";
-    }
-
-
-    @RequestMapping(value = "/home", method = RequestMethod.POST)
-    public String showHomePost(Model model) {
-        auth = SecurityContextHolder.getContext().getAuthentication();
-        System.out.println(model.getAttribute(chosenDev.toString()));
-        return "home";
-    }
-
-
-   // @GetMapping("/users")
-    public List<User> findAllUsers() {
-        return userRepository.findAll();
-    }
-
-
-
 }
+
+
+
+
+

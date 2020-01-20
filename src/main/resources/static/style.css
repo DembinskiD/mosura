@@ -61,7 +61,7 @@ img {
     position: relative;
     box-sizing: border-box;
     padding: 4px;
-    border: white solid 2px;
+    border: white solid 1px;
     border-radius: 10px;
 }
 
