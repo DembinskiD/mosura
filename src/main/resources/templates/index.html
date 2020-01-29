@@ -11,22 +11,7 @@
 <body>
 
 
-<div class="loginbox">
-<img src="avatar.png" class="avatar"/>
-    <h1>Login here</h1>
-    <p th:if="${loginError}" class="error" >Wrong or missing credentials.</p>
-    <p th:if="${userNotFound}" class="error">User not found.</p>
-    <p th:if="${loggedOut}" class="error">Logged out properly.</p>
-    <form th:action="@{/index}" th:object="${loginForm}" method="post">
-        <p>Username</p>
-        <input type="text" name="username" placeholder="Enter Username">
-        <p>Password</p>
-        <input type="password" name="password" placeholder="Enter password">
-        <input type="submit" name="submit" value="Login">
-        <a href="#">Lost your password?</a><br>
-    </form>
-</div>
-
+<a th:href="@{login}" th:text="login"/>
 
 </body>
 </html>

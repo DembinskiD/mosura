@@ -59,15 +59,18 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/").permitAll()
                 .antMatchers("/index").permitAll()
                 .antMatchers("/home").authenticated()
+                .antMatchers("/login").permitAll()
                 .antMatchers("/access-denied").permitAll()
                 .antMatchers("/logout").permitAll()
+                .antMatchers("/getDev").authenticated()
                 .and()
                 .formLogin().permitAll()
-                .loginPage("/index")
+                .loginPage("/login")
                 .defaultSuccessUrl("/home")
                 .usernameParameter("username")
                 .passwordParameter("password")
                 .and()
+                .csrf().disable()
                 .logout();
     }
 

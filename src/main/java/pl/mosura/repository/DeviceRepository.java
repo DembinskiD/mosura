@@ -17,4 +17,7 @@ public interface DeviceRepository extends JpaRepository<rpi_devices, Long> {
 
     @Query("Select record from rpi_devices record where record.config_group_id=:id")
     List<rpi_devices> findByConfGroup(@Param("id") long configGroup);
+
+    @Query("Select record FROM rpis record where record.hostname=:hostname")
+    rpis findDevByName(@Param("hostname") String hostname);
 }

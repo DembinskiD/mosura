@@ -6,6 +6,35 @@
     <link rel="shortcut icon" href="kreweta.gif" type="image/x-icon"/>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8; width=device-width; initial-scale=1" name="viewport" />
     <title>Mosura.pl - Your best aquaristic HQ</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script>
+        function devSelect() {
+            $('#ajaxLoader').show();
+            var defaultOption = $("#listOfDevs option[value='default']");
+            if (defaultOption) defaultOption.remove();
+            var chosenDev = $('#listOfDevs').val();
+            var url = "/getDev/" + chosenDev;
+            $.get(url, populateDevInfo);
+        }
+
+        function populateDevInfo(data) {
+            var status = data.responseStatus;
+            if(status == "Ok") {
+                var response = data.response;
+                var devAmount = response.rpiDevices.length;
+                for(var step = 0 ; step < devAmount; step++) {
+
+                }
+                console.log(devAmount)
+                console.log(response.rpiDevices[0].id);
+                //console.log(response.rpiDevices[""0""]);
+                var id = response.id;
+                var hostname = response.hostname;
+                $('#chosenName').val(hostname);
+            }
+            $('#ajaxLoader').hide();
+        }
+    </script>
 </head>
 <body>
 
@@ -17,27 +46,35 @@
 <div class="homebody">
     <div class="bodynode">
         <h2>User information</h2>
-        <!--<p th:text="${loggedUser.getName()}"></p>-->
+        <input type="text" class="chosenDevHolder" disabled="true" id="chosenName">
+        <p th:text="${loggedUser.getName()}"></p>
+        <!--<p th:text="${chosenDev.getHostname()}" style="color: red" id="chosenName"></p>-->
         <p>Choose device</p>
-        <select id="chosenDev" name="chosenDev" style="margin: 5px">
-            <option th:each="dev : ${loggedUser.getListOfRpis()}" th:value="${dev.getId()}" th:text="${dev.getHostname()}" th:selected="${dev==loggedUser.getListOfRpis().get(0)}"/>
+            <select id="listOfDevs" name="chosenDevs" onchange="devSelect()" style="margin: 5px">
+            <option value="default" selected="true">select...</option>
+            <option th:each="dev : ${loggedUser.getListOfRpis()}" th:value="${dev.getHostname()}" th:text="${dev.getHostname()}"/>
         </select>
 
-        <form th:action="@{/logout}" method="post">
+
+        <form th:action="@{/logout}" method="POST">
             <input type="submit" value="Logout" style="margin: 5px"/>
         </form>
     </div>
-    <div class="bodynode">
-        <h2>Temperature sensors</h2>
 
 
-    </div>
-    <div class="bodynode">
-        <h2>Lights</h2>
-    </div>
-    <div class="bodynode">
-        <h2>Controllers</h2>
-    </div>
+        <div class="bodynode">
+            <h2>Temperature sensors</h2>
+
+
+        </div>
+
+        <div class="bodynode">
+            <h2>Lights</h2>
+        </div>
+        <div class="bodynode">
+            <h2>Controllers</h2>
+        </div>
+
 </div>
 
 </body>

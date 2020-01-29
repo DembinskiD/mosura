@@ -16,6 +16,17 @@ body {
     background-size: 100%;
 }
 
+
+.chosenDevHolder input[type=text] {
+    width: 50%;
+    padding: 12px 20px;
+    box-sizing: border-box;
+    border: none;
+    background-color: black;
+    color: white;
+    text-align: center;
+}
+
 .header {
     border-color: white;
     border-style: solid;
@@ -114,6 +125,7 @@ img {
 
 .loginbox input[type="text"], input[type="password"]
 {
+    text-align: left;
     border: none;
     border-bottom: 1px solid #ffffff;
     background: transparent;

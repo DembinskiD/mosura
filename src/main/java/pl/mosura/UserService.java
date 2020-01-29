@@ -3,7 +3,7 @@ package pl.mosura;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import pl.mosura.entity.User;
+import pl.mosura.entity.rpi_users;
 import pl.mosura.repository.RoleRepository;
 import pl.mosura.repository.UserRepository;
 
@@ -25,13 +25,13 @@ public class UserService {
     }
 
 
-    public User findUserByName(String name) {
+    public rpi_users findUserByName(String name) {
         return userRepository.getUserByName(name);
     }
 
 
-    public void saveUser(User user) throws NoSuchAlgorithmException {
-        user.digestPass(user.getPassword_digest());
-        userRepository.save(user);
+    public void saveUser(rpi_users rpiusers) throws NoSuchAlgorithmException {
+        rpiusers.digestPass(rpiusers.getPassword_digest());
+        userRepository.save(rpiusers);
     }
 }

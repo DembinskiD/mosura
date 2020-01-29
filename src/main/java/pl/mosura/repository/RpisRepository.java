@@ -14,4 +14,15 @@ public interface RpisRepository extends JpaRepository<rpis, Long> {
 
     @Query("SELECT record FROM rpis record where record.rpi_user_id=:id")
     List<rpis> findByUserId(@Param("id")long rpi_user_id);
+
+
+
+    @Query("SELECT record FROM rpis record where record.hostname=:hostname")
+    rpis findByHostname(@Param("hostname")String hostname);
+
+
+
+
+
+
 }

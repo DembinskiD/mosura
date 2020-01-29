@@ -13,12 +13,12 @@ import java.util.List;
 @Data
 @Entity
 @Table(name = "rpi_users")
-public class User {
+public class rpi_users {
 
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "id") private long id;
+    @Column(name = "id") private Long id;
 
     @Column(name = "name")
     private String name;
@@ -47,20 +47,15 @@ public class User {
     @Column(name = "created_at")
     private String created_at;
 
-    @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "id")
-    private adm_user_role role;
 
-    @OneToMany
-    @JoinColumn(name = "rpi_user_id")
-    private List<rpis> ListOfRpis;
+    @OneToMany(mappedBy = "rpi_user_id")
+    private List<rpis> listOfRpis;
 
 
+    public userDTO getDAO() {
+        return new userDTO(this.id, this.name, this.listOfRpis, this.surname);
 
-
-
-
-
+    }
 
 
 

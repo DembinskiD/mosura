@@ -2,15 +2,14 @@ package pl.mosura.entity;
 
 import lombok.Data;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 @Data
 @Entity
+@Table(name = "adm_addresses")
 public class adm_addresses {
+
     @Id
-    @GeneratedValue
     private long id;
     private int city_id;
     private String street;
@@ -18,4 +17,7 @@ public class adm_addresses {
     private Long rpi_user_id;
     private String created_at;
     private String updated_at;
+
+    @OneToOne
+    private rpi_users rpiusers;
 }

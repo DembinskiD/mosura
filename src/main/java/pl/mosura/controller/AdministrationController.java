@@ -1,14 +1,14 @@
 package pl.mosura.controller;
 
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.ModelAndView;
-import pl.mosura.*;
 import pl.mosura.entity.*;
 import pl.mosura.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import java.security.NoSuchAlgorithmException;
 
 @Controller
 public class AdministrationController {
@@ -18,60 +18,64 @@ public class AdministrationController {
     private CountryRepository countryRepository;
     private AdminRoleRepository adminRoleRepository;
     private CountyRepository countyRepository;
+    private DeviceRepository deviceRepository;
+    private RpisRepository rpisRepository;
+    private RpiModRepository rpiModRepository;
+
+    private rpi_users loggedRpiusers;
+    private rpis chosenDev;
+    Authentication auth;
 
     @Autowired
     public AdministrationController(UserRepository userRepository, AddressesRepository addressesRepository,
                                     CityRepository cityRepository, CountryRepository countryRepository,
-                                    AdminRoleRepository adminRoleRepository, CountyRepository countyRepository) {
+                                    AdminRoleRepository adminRoleRepository, CountyRepository countyRepository,
+                                    DeviceRepository deviceRepository, RpisRepository rpisRepository,
+                                    RpiModRepository rpiModRepository) {
         this.userRepository = userRepository;
         this.addressesRepository = addressesRepository;
         this.cityRepository = cityRepository;
         this.countryRepository = countryRepository;
         this.adminRoleRepository = adminRoleRepository;
         this.countyRepository = countyRepository;
+        this.deviceRepository = deviceRepository;
+        this.rpisRepository = rpisRepository;
+        this.rpiModRepository = rpiModRepository;
     }
 
 
     @RequestMapping(value = "/")
     public String showIndex() {
-        return "index";
+        loggedRpiusers = null;
+        auth = null;
+        chosenDev = null;
+        return "login";
     }
 
 
-    @RequestMapping(value = "/index")
-    public ModelAndView login(@ModelAttribute(name = "loginForm") LoginForm loginForm,
-                              ModelAndView model) throws NoSuchAlgorithmException {
-        String username = loginForm.getUsername();
-        String password = loginForm.getPassword();
-        User tempRpiUser;
-        System.out.println("--");
-        System.out.println("username: " + username);
-        System.out.println(loginForm.getUsername());
-        System.out.println(loginForm.getPassword());
+    @RequestMapping(value = "/login")
+    public String login(){
+        return "login";
 
-        if (username == null) {
-            System.out.println("username empty..");
-            model.addObject("loginError", true);
-            return model;
         }
-        if (password == null) {
-            System.out.println("password empty");
-            model.addObject("loginError", true);
-            return model;
-        } else {
-            tempRpiUser = userRepository.getUserByName(username);
-            if (tempRpiUser == null) {
-                System.out.println("user not found");
-                model.addObject("userNotFound", true);
-                return model;
-            } else if (tempRpiUser.getUsername().equals(username) && tempRpiUser.digestPass(password)) {
-                model.addObject("loginError", false);
-                model.addObject("userNotFound", false);
-                return model;
-            } else return new ModelAndView("index");
-        }
+
+    @RequestMapping(value = "/home", method = RequestMethod.GET)
+    public String showHome(Model model) {
+        auth = SecurityContextHolder.getContext().getAuthentication();
+        loggedRpiusers = userRepository.getUserByName(auth.getName());
+        System.out.println(loggedRpiusers.getListOfRpis());
+        chosenDev = rpisRepository.findByUserId(loggedRpiusers.getId()).get(0);
+        model.addAttribute("loggedUser", loggedRpiusers);
+        model.addAttribute("chosenDev", chosenDev);
+        System.out.println("here: " + model.getAttribute("chosenDev"));
+        return "home";
     }
-}
+
+
+
+
+    }
+
 
 
 
