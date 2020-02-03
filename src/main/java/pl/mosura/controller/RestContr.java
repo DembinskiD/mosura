@@ -2,6 +2,7 @@ package pl.mosura.controller;
 
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -10,7 +11,6 @@ import pl.mosura.entity.*;
 import pl.mosura.repository.*;
 
 import java.util.List;
-import java.util.function.Function;
 import java.util.stream.Collectors;
 
 @RestController
@@ -26,13 +26,12 @@ public class RestContr {
     private RpiModRepository rpiModRepository;
 
 
-
     @Autowired
     public RestContr(UserRepository userRepository, AddressesRepository addressesRepository,
-                                    CityRepository cityRepository, CountryRepository countryRepository,
-                                    AdminRoleRepository adminRoleRepository, CountyRepository countyRepository,
-                                    DeviceRepository deviceRepository, RpisRepository rpisRepository,
-                                    RpiModRepository rpiModRepository) {
+                     CityRepository cityRepository, CountryRepository countryRepository,
+                     AdminRoleRepository adminRoleRepository, CountyRepository countyRepository,
+                     DeviceRepository deviceRepository, RpisRepository rpisRepository,
+                     RpiModRepository rpiModRepository) {
         this.userRepository = userRepository;
         this.addressesRepository = addressesRepository;
         this.cityRepository = cityRepository;
@@ -86,7 +85,8 @@ public class RestContr {
     }
 
     @GetMapping("/getCurrentTemp")
-    public data_temperature getCurrentTemp() {
+    public data_temperature getCurrentTemp(Model model) {
+        model.addAttribute("hasSensors", true);
         long count = deviceRepository.getOne(2L).getDataTemperatures().size();
         return deviceRepository.getOne(2L).getDataTemperatures().stream()
                 .skip(count - 1).findFirst().get();

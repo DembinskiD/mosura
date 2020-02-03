@@ -17,7 +17,7 @@ body {
 }
 
 
-.chosenDevHolder input[type=text] {
+.bodynode input[type=text] {
     width: 50%;
     padding: 12px 20px;
     box-sizing: border-box;
@@ -172,8 +172,19 @@ img {
     left: calc(50% - 50px);
 }
 
-h2 {
+h2, h3 {
     color: #aac73c;
+}
+
+.bodynode input[type="submit"] {
+    width: 50%;
+    background-color: #aac73c;
+    border: none;
+    height: 40px;
+}
+
+.bodynode input[type="submit"]:hover {
+    opacity: 80%;
 }
 
 h1 {

@@ -54,11 +54,12 @@
 <div class="homebody">
     <div class="bodynode">
         <h2>User information</h2>
+        <h3 th:text="${loggedUser.getName()}" style="font-weight: bold"></h3>
         <input type="text" class="chosenDevHolder" disabled="true" id="chosenName">
-        <p th:text="${loggedUser.getName()}"></p>
+        <!--<p th:text="${loggedUser.getName()}" style="font-weight: bold"></p>
         <!--<p th:text="${chosenDev.getHostname()}" style="color: red" id="chosenName"></p>-->
         <p>Choose device</p>
-            <select id="listOfDevs" name="chosenDevs" onchange="devSelect()" style="margin: 5px">
+            <select id="listOfDevs" name="chosenDevs" onchange="devSelect()" style="width: 50%">
             <option value="default" selected="true">select...</option>
             <option th:each="dev : ${loggedUser.getListOfRpis()}" th:value="${dev.getHostname()}" th:text="${dev.getHostname()}"/>
         </select>
@@ -70,16 +71,16 @@
     </div>
 
 
-        <div class="bodynode">
+        <div class="bodynode" th:if="${hasSensors}">
             <h2>Temperature sensors</h2>
             <input type="text" class="tempHolder" disabled="true" id="tempHolder">
 
         </div>
 
-        <div class="bodynode">
+        <div class="bodynode" th:if="${hasLights}">
             <h2>Lights</h2>
         </div>
-        <div class="bodynode">
+        <div class="bodynode" th:if="${hasControllers}">
             <h2>Controllers</h2>
         </div>
 
