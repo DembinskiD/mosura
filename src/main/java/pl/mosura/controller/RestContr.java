@@ -10,6 +10,8 @@ import pl.mosura.entity.*;
 import pl.mosura.repository.*;
 
 import java.util.List;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
 @RestController
 public class RestContr {
@@ -76,5 +78,24 @@ public class RestContr {
     @GetMapping("/getMe")
     public userDTO getMe() {
         return userRepository.getUserByName("dawid").getDAO();
+    }
+
+    @GetMapping("/getTemp")
+    public rpi_devices getTemp() {
+        return deviceRepository.getOne(2L);
+    }
+
+    @GetMapping("/getCurrentTemp")
+    public data_temperature getCurrentTemp() {
+        long count = deviceRepository.getOne(2L).getDataTemperatures().size();
+        return deviceRepository.getOne(2L).getDataTemperatures().stream()
+                .skip(count - 1).findFirst().get();
+    }
+
+    @GetMapping("/getTempString")
+    public List<String> getTempString() {
+        return deviceRepository.getOne(2L).getDataTemperatures().stream()
+                .map(data_temperature::getSensor_data)
+                .collect(Collectors.toList());
     }
 }

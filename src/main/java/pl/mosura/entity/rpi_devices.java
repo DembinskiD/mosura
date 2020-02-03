@@ -5,6 +5,8 @@ import lombok.Data;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
+import java.util.List;
 
 @Data
 @Entity
@@ -14,11 +16,13 @@ public class rpi_devices {
     @GeneratedValue
     private long id;
     private long rpi_id;
-    private long config_group_id;
+    private long group_id;
     private String name;
     private Integer pin_pwr;
     private Integer pin_btn;
-    private String created_at;
-    private String updated_at;
+    private String created;
+
+    @OneToMany(mappedBy = "rpi_device_id")
+    List<data_temperature> dataTemperatures;
 
 }

@@ -21,17 +21,25 @@
             var status = data.responseStatus;
             if(status == "Ok") {
                 var response = data.response;
-                var devAmount = response.rpiDevices.length;
-                for(var step = 0 ; step < devAmount; step++) {
-
-                }
-                console.log(devAmount)
-                console.log(response.rpiDevices[0].id);
+                //var devAmount = response.rpiDevices.length;
+                // for(var step = 0 ; step < devAmount; step++) {
+                //
+                // }
+                //console.log(devAmount)
+                //console.log(response.rpiDevices[0].id);
                 //console.log(response.rpiDevices[""0""]);
-                var id = response.id;
+                //var id = response.id;
                 var hostname = response.hostname;
                 $('#chosenName').val(hostname);
+                var url = "/getCurrentTemp";
+                $.get(url, getCurrentTemp);
             }
+
+        }
+
+        function getCurrentTemp(data) {
+            var temp = data.sensor_data;
+            $('#tempHolder').val(temp);
             $('#ajaxLoader').hide();
         }
     </script>
@@ -64,7 +72,7 @@
 
         <div class="bodynode">
             <h2>Temperature sensors</h2>
-
+            <input type="text" class="tempHolder" disabled="true" id="tempHolder">
 
         </div>
 
