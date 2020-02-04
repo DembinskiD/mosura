@@ -1,13 +1,15 @@
 package pl.mosura.controller;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
-import pl.mosura.entity.*;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import pl.mosura.entity.rpi_users;
+import pl.mosura.entity.rpis;
 import pl.mosura.repository.*;
-import org.springframework.beans.factory.annotation.Autowired;
 
 
 @Controller
@@ -22,9 +24,9 @@ public class AdministrationController {
     private RpisRepository rpisRepository;
     private RpiModRepository rpiModRepository;
 
-    private rpi_users loggedRpiusers;
+    private rpi_users loggedUser;
     private rpis chosenDev;
-    Authentication auth;
+    private Authentication auth;
 
     @Autowired
     public AdministrationController(UserRepository userRepository, AddressesRepository addressesRepository,
@@ -46,7 +48,7 @@ public class AdministrationController {
 
     @RequestMapping(value = "/")
     public String showIndex() {
-        loggedRpiusers = null;
+        loggedUser = null;
         auth = null;
         chosenDev = null;
         return "login";
@@ -56,20 +58,24 @@ public class AdministrationController {
     @RequestMapping(value = "/login")
     public String login(){
         return "login";
-
         }
+//todo dodac pakiet jezykowy dla kazdego uzytkownika, tablice z jezykami- pierw angielski(domyslny) i polski.
 
     @RequestMapping(value = "/home", method = RequestMethod.GET)
     public String showHome(Model model) {
         auth = SecurityContextHolder.getContext().getAuthentication();
-        loggedRpiusers = userRepository.getUserByName(auth.getName());
-        System.out.println(loggedRpiusers.getListOfRpis());
-        chosenDev = rpisRepository.findByUserId(loggedRpiusers.getId()).get(0);
-        model.addAttribute("loggedUser", loggedRpiusers);
+        loggedUser = userRepository.getUserByName(auth.getName());
+//        System.out.println(loggedUser.getListOfRpis());
+        chosenDev = rpisRepository.findByUserId(loggedUser.getId()).get(0);
+//        model.addAttribute("hasSensors", false);
+        model.addAttribute("logoutText", "Logout");
+        model.addAttribute("hasOneDev", loggedUser.getListOfRpis().size() == 1);
+        model.addAttribute("loggedUser", loggedUser);
         model.addAttribute("chosenDev", chosenDev);
-        System.out.println("here: " + model.getAttribute("chosenDev"));
         return "home";
     }
+
+
 
 
 

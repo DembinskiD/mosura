@@ -1,8 +1,39 @@
+
+#left {
+    float: left;
+    width: 300px;
+}
+
+#kreweta {
+    alignment: center;
+
+}
+
+#center {
+    margin: 0 auto;
+    width: calc(100% - 600px);
+    text-align: center;
+    /*vertical-align: middle;*/
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #aac73c;
+    /*border: solid white 1px;*/
+
+}
+
+#center img {
+    margin-right: 10px;
+}
+
 button:hover {
     opacity: 0.8;
 }
 
-
+/*.helper {*/
+/*height: 100%;*/
+/*vertical-align: middle;*/
+/*}*/
 
 body {
     margin: 0;
@@ -16,10 +47,26 @@ body {
     background-size: 100%;
 }
 
+#right h1 {
+    padding: 1px;
+}
 
-.bodynode input[type=text] {
+#right input[type=text] {
     width: 50%;
-    padding: 12px 20px;
+    padding: 2px 2px;
+    margin: 2px;
+    box-sizing: border-box;
+    border: none;
+    background-color: black;
+    color: white;
+    text-align: center;
+    /*border: solid white 1px;*/
+}
+
+#tempHolder {
+    width: 50%;
+    padding: 2px 2px;
+    margin: 2px;
     box-sizing: border-box;
     border: none;
     background-color: black;
@@ -27,37 +74,64 @@ body {
     text-align: center;
 }
 
-.header {
+.custom-select {
+    background-color: black;
+    color: #ffffff;
+}
+
+.custom-select select {
+    /*display: none;*/
+}
+
+.select-selected {
+    background-color: #aac73c;
+}
+
+.select-items div,.select-selected {
+    color: #000;
+    cursor: pointer;
+}
+
+#right {
+    float: right;
+    /*display: inline-block;*/
+    margin: 2px 2px;
+    width: 300px;
+    height: 100%;
+    background: black;
+    color: #ffffff;
+    /*box-sizing: border-box;*/
+    padding: 1px;
+    /*border: white solid 1px;*/
+    border: none;
+    text-align: center;
+    font-size: 14px;
+}
+
+#container {
     border-color: white;
     border-style: solid;
     border-width: 1px;
-    border-radius: 10px;
-    align-items: center;
-    display: flex;
+    width: calc(100% - 30px);
     color: white;
     margin: 10px;
-    justify-content: center;
+    opacity: 80%;
+    display: flex;
     padding: 4px;
     font-size: 30px;
     background: black;
-    opacity: 80%;
-}
-
-img {
-    padding: 6px;
 }
 
 .bodynode {
     display: inline-block;
-    margin: 20px 20px;
+    margin: 2px 2px;
     width: 300px;
-    height: 95%;
+    height: 100%;
     background: black;
     color: #ffffff;
     box-sizing: border-box;
-    padding: 4px;
+    padding: 1px;
     border: white solid 1px;
-    border-radius: 10px;
     text-align: center;
 }
 
@@ -73,7 +147,6 @@ img {
     box-sizing: border-box;
     padding: 4px;
     border: white solid 1px;
-    border-radius: 10px;
 }
 
 .body {
@@ -83,7 +156,7 @@ img {
     border-radius: 10px;
 }
 
-.loginbox{
+.loginbox {
     width: 320px;
     height: 420px;
     background: black;
@@ -107,24 +180,23 @@ img {
 }
 
 .loginbox .error {
-    background-color: red;
+    background-color: #aac73c;
     text-align: center;
     color: #111111;
     font-size: 12px;
     margin: 6px;
-    border-radius: 10px;
     -webkit-animation: swing 0.3s ease;
     animation: swing 0.3s ease;
     -webkit-animation-iteration-count: 1;
     animation-iteration-count: 1;
 }
+
 .loginbox input {
     width: 100%;
     margin-bottom: 20px;
 }
 
-.loginbox input[type="text"], input[type="password"]
-{
+.loginbox input[type="text"], input[type="password"] {
     text-align: left;
     border: none;
     border-bottom: 1px solid #ffffff;
@@ -137,17 +209,16 @@ img {
 
 .loginbox input[type="submit"] {
     border: none;
-    outline:none;
+    outline: none;
     height: 40px;
     color: #111111;
-    background: #eb4034;
+    background: #aac73c;
     font-size: 18px;
-    border-radius: 20px;
 }
+
 .loginbox input[type="submit"]:hover {
     opacity: 80%;
 }
-
 
 .loginbox a {
     text-decoration: none;
@@ -160,8 +231,6 @@ img {
 .loginbox a:hover {
     text-decoration: underline;
 }
-
-
 
 .avatar {
     width: 100px;
@@ -176,6 +245,13 @@ h2, h3 {
     color: #aac73c;
 }
 
+#right input[type="submit"] {
+    width: 50%;
+    background-color: #aac73c;
+    border: none;
+    height: 20px;
+}
+
 .bodynode input[type="submit"] {
     width: 50%;
     background-color: #aac73c;
@@ -183,13 +259,13 @@ h2, h3 {
     height: 40px;
 }
 
-.bodynode input[type="submit"]:hover {
+input[type="submit"]:hover {
     opacity: 80%;
 }
 
 h1 {
     margin: 0;
-    padding: 0 0 20px;
+    /*padding: 0 0 20px;*/
     text-align: center;
     font-size: 30px;
     color: #aac73c;
@@ -229,24 +305,12 @@ h1 {
         transform: translateX(0px);
     }
 }
+
 .swing {
-   -webkit-animation: swing 1s ease;
+    -webkit-animation: swing 1s ease;
     animation: swing 1s ease;
     -webkit-animation-iteration-count: 1;
     animation-iteration-count: 1;
-}
-
-table, th, td {
-    padding: 10px;
-    text-align: left;
-    border: 1px solid white;
-    border-collapse: collapse;
-    font-size: 12px;
-}
-
-th {
-    text-align: center;
-    color: #aac73c;
 }
 
 

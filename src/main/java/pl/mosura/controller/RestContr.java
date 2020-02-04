@@ -3,10 +3,7 @@ package pl.mosura.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import pl.mosura.entity.*;
 import pl.mosura.repository.*;
 
@@ -85,11 +82,15 @@ public class RestContr {
     }
 
     @GetMapping("/getCurrentTemp")
-    public data_temperature getCurrentTemp(Model model) {
+    public RestResponse getCurrentTemp(Model model) {
+
         model.addAttribute("hasSensors", true);
         long count = deviceRepository.getOne(2L).getDataTemperatures().size();
-        return deviceRepository.getOne(2L).getDataTemperatures().stream()
-                .skip(count - 1).findFirst().get();
+        RestResponse response = new RestResponse();
+        response.setResponseStatus(RestResponse.OK);
+        response.setResponse(deviceRepository.getOne(2L).getDataTemperatures().stream()
+                .skip(count - 1).findFirst().get());
+        return response;
     }
 
     @GetMapping("/getTempString")
@@ -98,4 +99,6 @@ public class RestContr {
                 .map(data_temperature::getSensor_data)
                 .collect(Collectors.toList());
     }
+
+
 }

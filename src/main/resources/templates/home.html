@@ -4,7 +4,8 @@
 <head>
     <link rel="stylesheet" href="style.css"/>
     <link rel="shortcut icon" href="kreweta.gif" type="image/x-icon"/>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8; width=device-width; initial-scale=1" name="viewport" />
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8; width=device-width; initial-scale=1"
+          name="viewport"/>
     <title>Mosura.pl - Your best aquaristic HQ</title>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
     <script>
@@ -19,7 +20,7 @@
 
         function populateDevInfo(data) {
             var status = data.responseStatus;
-            if(status == "Ok") {
+            if (status == "Ok") {
                 var response = data.response;
                 //var devAmount = response.rpiDevices.length;
                 // for(var step = 0 ; step < devAmount; step++) {
@@ -38,8 +39,13 @@
         }
 
         function getCurrentTemp(data) {
-            var temp = data.sensor_data;
-            $('#tempHolder').val(temp);
+            var status = data.responseStatus;
+            console.log(data);
+            if(status == "Ok") {
+                var response = data.response;
+                $('#tempHolder').val(response.sensor_data);
+                document.getElementById('tempSensor').style.display = 'block';
+            }
             $('#ajaxLoader').hide();
         }
     </script>
@@ -47,42 +53,50 @@
 <body>
 
 
-<div class="header">
-    <img src="kreweta.gif" alt="krewetka"/>
-    <span><h1>Mosura.pl - Your aquaristic center</h1></span>
-</div>
-<div class="homebody">
-    <div class="bodynode">
-        <h2>User information</h2>
-        <h3 th:text="${loggedUser.getName()}" style="font-weight: bold"></h3>
-        <input type="text" class="chosenDevHolder" disabled="true" id="chosenName">
-        <!--<p th:text="${loggedUser.getName()}" style="font-weight: bold"></p>
-        <!--<p th:text="${chosenDev.getHostname()}" style="color: red" id="chosenName"></p>-->
-        <p>Choose device</p>
-            <select id="listOfDevs" name="chosenDevs" onchange="devSelect()" style="width: 50%">
-            <option value="default" selected="true">select...</option>
-            <option th:each="dev : ${loggedUser.getListOfRpis()}" th:value="${dev.getHostname()}" th:text="${dev.getHostname()}"/>
-        </select>
+<div id="container">
 
-
-        <form th:action="@{/logout}" method="POST">
-            <input type="submit" value="Logout" style="margin: 5px"/>
-        </form>
+    <div id="center">
+        <img id="kreweta" src="kreweta.gif" alt="krewetka"/>
+        <span>Mosura - twoje centrum akwarysty</span>
     </div>
 
 
-        <div class="bodynode" th:if="${hasSensors}">
-            <h2>Temperature sensors</h2>
-            <input type="text" class="tempHolder" disabled="true" id="tempHolder">
+    <div id="right">
+        <h1 th:text="${loggedUser.getName()}" style="font-weight: bold; font-size: 20px;"></h1>
+        <form th:action="@{/logout}" method="POST">
+            <input type="submit" th:value="${logoutText}" style="margin: 5px"/>
+        </form>
 
+        <!--<input th:if="${!hasOneDev}" type="text" class="chosenDevHolder" disabled="true" id="chosenName">-->
+        <input th:if="${hasOneDev}" type="text" class="chosenDevHolder" disabled="true" id="chosenNameOneDev"
+               th:value="${chosenDev.getHostname()}">
+        <div th:if="${!hasOneDev}">
+            <select class="custom-select" id="listOfDevs" name="chosenDevs" onchange="devSelect()" style="width: 50%">
+                <option value="default" selected="true">select device</option>
+                <option th:each="dev : ${loggedUser.getListOfRpis()}" th:value="${dev.getHostname()}"
+                        th:text="${dev.getHostname()}"/>
+            </select>
         </div>
 
-        <div class="bodynode" th:if="${hasLights}">
-            <h2>Lights</h2>
-        </div>
-        <div class="bodynode" th:if="${hasControllers}">
-            <h2>Controllers</h2>
-        </div>
+
+    </div>
+
+
+</div>
+
+
+<div class="homebody">
+    <div class="bodynode" id="tempSensor" style="display: none;">
+        <h2>Temperature sensors</h2>
+        <input type="text" class="tempHolder" disabled="true" id="tempHolder">
+    </div>
+
+    <div class="bodynode" id="lightSensor" style="display: none">
+        <h2>Lights</h2>
+    </div>
+    <div class="bodynode" id="controllers" style="display: none">
+        <h2>Controllers</h2>
+    </div>
 
 </div>
 
