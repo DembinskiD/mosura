@@ -2,53 +2,14 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
 <html lang="en" xmlns:th="http://www.thymeleaf.org"/>
 <head>
+
     <link rel="stylesheet" href="style.css"/>
     <link rel="shortcut icon" href="kreweta.gif" type="image/x-icon"/>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8; width=device-width; initial-scale=1"
           name="viewport"/>
     <title>Mosura.pl - Your best aquaristic HQ</title>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
-    <script>
-        function devSelect() {
-            $('#ajaxLoader').show();
-            var defaultOption = $("#listOfDevs option[value='default']");
-            if (defaultOption) defaultOption.remove();
-            var chosenDev = $('#listOfDevs').val();
-            var url = "/getDev/" + chosenDev;
-            $.get(url, populateDevInfo);
-        }
-
-        function populateDevInfo(data) {
-            var status = data.responseStatus;
-            if (status == "Ok") {
-                var response = data.response;
-                //var devAmount = response.rpiDevices.length;
-                // for(var step = 0 ; step < devAmount; step++) {
-                //
-                // }
-                //console.log(devAmount)
-                //console.log(response.rpiDevices[0].id);
-                //console.log(response.rpiDevices[""0""]);
-                //var id = response.id;
-                var hostname = response.hostname;
-                $('#chosenName').val(hostname);
-                var url = "/getCurrentTemp";
-                $.get(url, getCurrentTemp);
-            }
-
-        }
-
-        function getCurrentTemp(data) {
-            var status = data.responseStatus;
-            console.log(data);
-            if(status == "Ok") {
-                var response = data.response;
-                $('#tempHolder').val(response.sensor_data);
-                document.getElementById('tempSensor').style.display = 'block';
-            }
-            $('#ajaxLoader').hide();
-        }
-    </script>
+    <script src="script.js"></script>
 </head>
 <body>
 
@@ -88,7 +49,6 @@
 <div class="homebody">
     <div class="bodynode" id="tempSensor" style="display: none;">
         <h2>Temperature sensors</h2>
-        <input type="text" class="tempHolder" disabled="true" id="tempHolder">
     </div>
 
     <div class="bodynode" id="lightSensor" style="display: none">

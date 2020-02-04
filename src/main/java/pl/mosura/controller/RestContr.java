@@ -83,8 +83,6 @@ public class RestContr {
 
     @GetMapping("/getCurrentTemp")
     public RestResponse getCurrentTemp(Model model) {
-
-        model.addAttribute("hasSensors", true);
         long count = deviceRepository.getOne(2L).getDataTemperatures().size();
         RestResponse response = new RestResponse();
         response.setResponseStatus(RestResponse.OK);

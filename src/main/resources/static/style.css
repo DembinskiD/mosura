@@ -63,8 +63,8 @@ body {
     /*border: solid white 1px;*/
 }
 
-#tempHolder {
-    width: 50%;
+.homebody input[type=text] {
+    width: 90%;
     padding: 2px 2px;
     margin: 2px;
     box-sizing: border-box;
