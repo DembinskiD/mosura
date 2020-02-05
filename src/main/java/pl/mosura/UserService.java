@@ -8,6 +8,7 @@ import pl.mosura.repository.RoleRepository;
 import pl.mosura.repository.UserRepository;
 
 import java.security.NoSuchAlgorithmException;
+import java.util.Optional;
 
 @Service("userService")
 public class UserService {
@@ -25,7 +26,7 @@ public class UserService {
     }
 
 
-    public rpi_users findUserByName(String name) {
+    public Optional<rpi_users> findUserByName(String name) {
         return userRepository.getUserByName(name);
     }
 

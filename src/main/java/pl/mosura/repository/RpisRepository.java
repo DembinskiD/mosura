@@ -7,6 +7,7 @@ import org.springframework.stereotype.Repository;
 import pl.mosura.entity.rpis;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface RpisRepository extends JpaRepository<rpis, Long> {
@@ -18,7 +19,7 @@ public interface RpisRepository extends JpaRepository<rpis, Long> {
 
 
     @Query("SELECT record FROM rpis record where record.hostname=:hostname")
-    rpis findByHostname(@Param("hostname")String hostname);
+    Optional<rpis> findByHostname(@Param("hostname")String hostname);
 
 
 

@@ -23,6 +23,7 @@ public class AdministrationController {
     private DeviceRepository deviceRepository;
     private RpisRepository rpisRepository;
     private RpiModRepository rpiModRepository;
+    private Dictionary dictionary;
 
     private rpi_users loggedUser;
     private rpis chosenDev;
@@ -33,7 +34,7 @@ public class AdministrationController {
                                     CityRepository cityRepository, CountryRepository countryRepository,
                                     AdminRoleRepository adminRoleRepository, CountyRepository countyRepository,
                                     DeviceRepository deviceRepository, RpisRepository rpisRepository,
-                                    RpiModRepository rpiModRepository) {
+                                    RpiModRepository rpiModRepository, Dictionary dictionary) {
         this.userRepository = userRepository;
         this.addressesRepository = addressesRepository;
         this.cityRepository = cityRepository;
@@ -43,6 +44,7 @@ public class AdministrationController {
         this.deviceRepository = deviceRepository;
         this.rpisRepository = rpisRepository;
         this.rpiModRepository = rpiModRepository;
+        this.dictionary = dictionary;
     }
 
 
@@ -64,7 +66,7 @@ public class AdministrationController {
     @RequestMapping(value = "/home", method = RequestMethod.GET)
     public String showHome(Model model) {
         auth = SecurityContextHolder.getContext().getAuthentication();
-        loggedUser = userRepository.getUserByName(auth.getName());
+        userRepository.getUserByName(auth.getName()).ifPresent(x -> loggedUser = x);
 //        System.out.println(loggedUser.getListOfRpis());
         chosenDev = rpisRepository.findByUserId(loggedUser.getId()).get(0);
 //        model.addAttribute("hasSensors", false);

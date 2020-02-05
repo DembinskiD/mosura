@@ -10,14 +10,17 @@ import javax.persistence.Table;
 
 @Entity
 @Data
-@Table(name = "data_temperature", schema = "shrimps")
-public class data_temperature {
+@Table(name = "shrimps", catalog = "dictionary")
+public class shrimps {
 
     @Id
     @GeneratedValue
     private Long id;
-    private Long rpi_device_id;
-    private String sensor_data;
-    private String timestamp;
-    private String heartbeat;
+
+    private String english;
+
+    private String polish;
+
+//    private String german;
+
 }

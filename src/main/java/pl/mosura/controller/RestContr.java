@@ -2,13 +2,15 @@ package pl.mosura.controller;
 
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 import pl.mosura.entity.*;
 import pl.mosura.repository.*;
 
 import java.util.List;
-import java.util.stream.Collectors;
+import java.util.Optional;
 
 @RestController
 public class RestContr {
@@ -21,6 +23,7 @@ public class RestContr {
     private DeviceRepository deviceRepository;
     private RpisRepository rpisRepository;
     private RpiModRepository rpiModRepository;
+    private Dictionary dictionary;
 
 
     @Autowired
@@ -28,7 +31,7 @@ public class RestContr {
                      CityRepository cityRepository, CountryRepository countryRepository,
                      AdminRoleRepository adminRoleRepository, CountyRepository countyRepository,
                      DeviceRepository deviceRepository, RpisRepository rpisRepository,
-                     RpiModRepository rpiModRepository) {
+                     RpiModRepository rpiModRepository, Dictionary dictionary) {
         this.userRepository = userRepository;
         this.addressesRepository = addressesRepository;
         this.cityRepository = cityRepository;
@@ -38,6 +41,7 @@ public class RestContr {
         this.deviceRepository = deviceRepository;
         this.rpisRepository = rpisRepository;
         this.rpiModRepository = rpiModRepository;
+        this.dictionary = dictionary;
     }
 
 
@@ -45,18 +49,14 @@ public class RestContr {
     public RestResponse getDev(@PathVariable String chosenDev) {
         RestResponse response = new RestResponse();
 
-        rpis returnedDev;
+        Optional<rpis> optional = rpisRepository.findByHostname(chosenDev);
 
-
-        returnedDev = rpisRepository.findByHostname(chosenDev);
-
-
-        if (returnedDev == null) {
+        if (!optional.isPresent()) {
             response.setResponseStatus(RestResponse.NOT_FOUND);
             response.setResponse("");
         } else {
             response.setResponseStatus(RestResponse.OK);
-            response.setResponse(returnedDev);
+            response.setResponse(new devDTO(optional.get()));
         }
         return response;
     }
@@ -72,8 +72,18 @@ public class RestContr {
     }
 
     @GetMapping("/getMe")
-    public userDTO getMe() {
-        return userRepository.getUserByName("dawid").getDAO();
+    public RestResponse getMe() {
+        RestResponse response = new RestResponse();
+        Optional<rpi_users> userOptional = userRepository.getUserByName("dawid");
+
+        if(!userOptional.isPresent()) {
+            response.setResponseStatus(RestResponse.NOT_FOUND);
+            response.setResponse("");
+        } else {
+            response.setResponseStatus(RestResponse.OK);
+            response.setResponse(new userDTO(userOptional.get()));
+        }
+        return response;
     }
 
     @GetMapping("/getTemp")
@@ -81,21 +91,9 @@ public class RestContr {
         return deviceRepository.getOne(2L);
     }
 
-    @GetMapping("/getCurrentTemp")
-    public RestResponse getCurrentTemp(Model model) {
-        long count = deviceRepository.getOne(2L).getDataTemperatures().size();
-        RestResponse response = new RestResponse();
-        response.setResponseStatus(RestResponse.OK);
-        response.setResponse(deviceRepository.getOne(2L).getDataTemperatures().stream()
-                .skip(count - 1).findFirst().get());
-        return response;
-    }
-
-    @GetMapping("/getTempString")
-    public List<String> getTempString() {
-        return deviceRepository.getOne(2L).getDataTemperatures().stream()
-                .map(data_temperature::getSensor_data)
-                .collect(Collectors.toList());
+    @GetMapping("/dictionary")
+    public List<shrimps> getDictionary() {
+        return dictionary.findAll();
     }
 
 

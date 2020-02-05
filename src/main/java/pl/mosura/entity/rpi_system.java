@@ -2,14 +2,13 @@ package pl.mosura.entity;
 
 import lombok.Data;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.OneToOne;
+import javax.persistence.*;
 import java.sql.Timestamp;
 
 @Data
 @Entity
+@Table(name = "rpi_system", schema = "shrimps")
+
 public class rpi_system {
 
     @Id

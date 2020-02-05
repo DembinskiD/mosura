@@ -33,7 +33,7 @@
                th:value="${chosenDev.getHostname()}">
         <div th:if="${!hasOneDev}">
             <select class="custom-select" id="listOfDevs" name="chosenDevs" onchange="devSelect()" style="width: 50%">
-                <option value="default" selected="true">select device</option>
+                <option id="defVal" value="default" selected="true">select device</option>
                 <option th:each="dev : ${loggedUser.getListOfRpis()}" th:value="${dev.getHostname()}"
                         th:text="${dev.getHostname()}"/>
             </select>

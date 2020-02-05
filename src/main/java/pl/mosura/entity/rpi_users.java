@@ -12,7 +12,7 @@ import java.util.List;
 
 @Data
 @Entity
-@Table(name = "rpi_users")
+@Table(name = "rpi_users", schema = "shrimps")
 public class rpi_users {
 
 
@@ -47,15 +47,13 @@ public class rpi_users {
     @Column(name = "created_at")
     private String created_at;
 
+    @Column(name = "language")
+    private short language;
+
 
     @OneToMany(mappedBy = "rpi_user_id")
     private List<rpis> listOfRpis;
 
-
-    public userDTO getDAO() {
-        return new userDTO(this.id, this.name, this.listOfRpis, this.surname);
-
-    }
 
 
 
@@ -68,6 +66,10 @@ public class rpi_users {
             hashText = "0" + hashText;
         }
         return hashText.equals(password_digest);
+    }
+
+    public rpi_users get() {
+        return this;
     }
 
 }

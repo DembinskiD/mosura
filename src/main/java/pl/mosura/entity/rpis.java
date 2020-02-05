@@ -7,6 +7,8 @@ import java.util.List;
 
 @Data
 @Entity
+@Table(name = "rpis", schema = "shrimps")
+
 public class rpis {
 
     @Id

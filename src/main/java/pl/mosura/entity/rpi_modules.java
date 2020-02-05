@@ -5,10 +5,13 @@ import lombok.Data;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.Table;
 import java.sql.Timestamp;
 
 @Entity
 @Data
+@Table(name = "rpi_modules", schema = "shrimps")
+
 public class rpi_modules {
 
     @Id

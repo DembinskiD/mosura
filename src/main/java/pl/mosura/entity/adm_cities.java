@@ -5,9 +5,11 @@ import lombok.Data;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.Table;
 
 @Data
 @Entity
+@Table(name = "adm_cities", schema = "shrimps")
 public class adm_cities {
     @Id
     @GeneratedValue
